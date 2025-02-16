@@ -1,0 +1,23 @@
+FROM golang:1.22.9-bookworm
+
+RUN ln -sf /usr/share/zoneinfo/Etc/GMT-8 /etc/localtime
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get update -y
+RUN apt-get install -y systemd-timesyncd vim curl wget gnupg gcc g++ git make nasm jq bc bsdextrautils gpg cron lsof netcat-openbsd dnsutils iproute2 nodejs
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN npm install --global yarn
+RUN corepack enable
+
+RUN git config --global user.name "Akvicor"
+RUN git config --global user.email akvicor@akvicor.com
+RUN git config --global core.editor vim
+RUN git config --global core.quotepath false
+
+WORKDIR /app
+
+CMD ["go", "version"]
+
+
